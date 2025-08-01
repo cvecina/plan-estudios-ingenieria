@@ -22,6 +22,7 @@
     "axios": "^1.7.9",
     "bcryptjs": "^2.4.3",
     "convex": "^1.25.4",
+    "convex-vue": "^0.1.5",
     "daisyui": "^4.12.23",
     "lucide-vue-next": "^0.535.0",
     "moment": "^2.30.1",

@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { 
   HomeIcon, 
   CalendarIcon, 
@@ -7,16 +7,29 @@ import {
   PencilIcon, 
   ChartBarIcon,
   Bars3Icon,
-  XMarkIcon
+  XMarkIcon,
+  UserIcon,
+  ArrowRightOnRectangleIcon
 } from '@heroicons/vue/24/outline'
 
 const mobileMenuOpen = ref(false)
+const userMenuOpen = ref(false)
+const authStore = useAuthStore()
+
+// Inicializar auth store
+onMounted(() => {
+  authStore.init()
+})
+
+const handleLogout = () => {
+  authStore.logout()
+}
 </script>
 
 <template>
   <div class="min-h-screen bg-gray-50 dark:bg-gray-900">
-    <!-- Navigation -->
-    <nav class="bg-white dark:bg-gray-800 shadow-lg">
+    <!-- Navigation - Solo mostrar si está autenticado -->
+    <nav v-if="authStore.isAuthenticated" class="bg-white dark:bg-gray-800 shadow-lg">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
           <div class="flex items-center">
@@ -37,6 +50,10 @@ const mobileMenuOpen = ref(false)
               <CalendarIcon class="w-5 h-5 mr-2" />
               Calendario
             </NuxtLink>
+            <NuxtLink to="/cursos" class="nav-link">
+              <BookOpenIcon class="w-5 h-5 mr-2" />
+              Cursos
+            </NuxtLink>
             <NuxtLink to="/asignaturas" class="nav-link">
               <BookOpenIcon class="w-5 h-5 mr-2" />
               Asignaturas
@@ -49,6 +66,34 @@ const mobileMenuOpen = ref(false)
               <ChartBarIcon class="w-5 h-5 mr-2" />
               Progreso
             </NuxtLink>
+
+            <!-- User Menu -->
+            <div class="relative">
+              <button 
+                @click="userMenuOpen = !userMenuOpen"
+                class="flex items-center text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 rounded-md px-2 py-1"
+              >
+                <UserIcon class="w-5 h-5 mr-2" />
+                {{ authStore.getUserName }}
+              </button>
+              
+              <!-- Dropdown Menu -->
+              <div 
+                v-show="userMenuOpen"
+                class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-700 rounded-md shadow-lg py-1 z-50 border border-gray-200 dark:border-gray-600"
+              >
+                <div class="px-4 py-2 text-sm text-gray-500 dark:text-gray-400 border-b border-gray-200 dark:border-gray-600">
+                  {{ authStore.getUserEmail }}
+                </div>
+                <button
+                  @click="handleLogout"
+                  class="w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-600 flex items-center"
+                >
+                  <ArrowRightOnRectangleIcon class="w-4 h-4 mr-2" />
+                  Cerrar sesión
+                </button>
+              </div>
+            </div>
           </div>
 
           <!-- Mobile menu button -->
@@ -72,6 +117,10 @@ const mobileMenuOpen = ref(false)
             <CalendarIcon class="w-5 h-5 mr-3" />
             Calendario
           </NuxtLink>
+          <NuxtLink to="/cursos" class="mobile-nav-link" @click="mobileMenuOpen = false">
+            <BookOpenIcon class="w-5 h-5 mr-3" />
+            Cursos
+          </NuxtLink>
           <NuxtLink to="/asignaturas" class="mobile-nav-link" @click="mobileMenuOpen = false">
             <BookOpenIcon class="w-5 h-5 mr-3" />
             Asignaturas
@@ -84,12 +133,26 @@ const mobileMenuOpen = ref(false)
             <ChartBarIcon class="w-5 h-5 mr-3" />
             Progreso
           </NuxtLink>
+          
+          <!-- User info and logout on mobile -->
+          <div class="border-t border-gray-200 dark:border-gray-600 pt-2 mt-2">
+            <div class="px-3 py-2 text-sm text-gray-500 dark:text-gray-400">
+              {{ authStore.getUserEmail }}
+            </div>
+            <button
+              @click="handleLogout"
+              class="mobile-nav-link text-red-600 dark:text-red-400"
+            >
+              <ArrowRightOnRectangleIcon class="w-5 h-5 mr-3" />
+              Cerrar sesión
+            </button>
+          </div>
         </div>
       </div>
     </nav>
 
     <!-- Main Content -->
-    <main class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+    <main :class="authStore.isAuthenticated ? 'max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8' : 'w-full h-full'">
       <slot name="header"/>
       <slot name="main"/>
       <slot name="footer"/>

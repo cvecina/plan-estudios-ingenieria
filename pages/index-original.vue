@@ -134,9 +134,8 @@ import {
   ClockIcon
 } from '@heroicons/vue/24/outline'
 
-// Importar datos
-const { getCurrentUserId } = useConvexData()
-const studiesStore = useStudiesStore()
+// Importar Convex
+const { convex, getCurrentUserId } = useConvexData()
 
 // Estados reactivos
 const loading = ref(true)
@@ -150,28 +149,27 @@ const stats = ref({
 // Actividad reciente
 const recentActivity = ref([])
 
-// Cargar datos del usuario actual (solo local)
+// Cargar datos reales de la base de datos
 onMounted(async () => {
   try {
     loading.value = true
     
-    // Asegurar que los datos estén inicializados
-    await nextTick()
-    
-    // Usar datos del store local (separados por usuario)
-    const asignaturas = studiesStore.subjects
-    const ejercicios = studiesStore.exercises
-    const eventos = studiesStore.calendar
-    const metas = studiesStore.goals
-    const horasEstudio = studiesStore.studyHours
-    
-    console.log('📊 Datos del usuario actual:', { 
-      asignaturas: asignaturas.length, 
-      ejercicios: ejercicios.length, 
-      eventos: eventos.length,
-      horasEstudio,
-      userId: getCurrentUserId()
+    // Obtener asignaturas del usuario
+    const asignaturas = await convex.query('asignaturas:getAsignaturasByUsuario', {
+      usuarioId: getCurrentUserId()
     })
+    
+    // Obtener entregas del usuario
+    const entregas = await convex.query('entregas:getEntregasByUsuario', {
+      usuarioId: getCurrentUserId()
+    })
+    
+    // Obtener usuario para las horas totales
+    const usuario = await convex.query('usuarios:getUsuarioByEmail', {
+      email: 'estudiante@ejemplo.com'
+    })
+    
+    console.log('📊 Datos cargados:', { asignaturas, entregas, usuario })
     
     // Calcular estadísticas reales
     const ahora = Date.now()

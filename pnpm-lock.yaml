@@ -41,6 +41,9 @@ dependencies:
   convex:
     specifier: ^1.25.4
     version: 1.25.4
+  convex-vue:
+    specifier: ^0.1.5
+    version: 0.1.5(convex@1.25.4)(vue@3.5.13)
   daisyui:
     specifier: ^4.12.23
     version: 4.12.23(postcss@8.5.1)
@@ -3055,6 +3058,11 @@ packages:
     engines: {node: ^14.18.0 || >=16.10.0}
     dev: false
 
+  /consola@3.4.2:
+    resolution: {integrity: sha512-5IKcdX0nnYavi6G7TtOhwkYzyjfJlatbjMjuLSfE2kYT5pMDOilZ4OvMhi637CcDICTmz3wARPoyhqyX1Y+XvA==}
+    engines: {node: ^14.18.0 || >=16.10.0}
+    dev: false
+
   /content-disposition@0.5.4:
     resolution: {integrity: sha512-FveZTNuGw04cxlAiWbzi6zTAL/lhehaWbTtgluJh4/E95DqMwTmha3KZN1aAWA8cFIhHzMZUvLevkw5Rqk+tSQ==}
     engines: {node: '>= 0.6'}
@@ -3069,6 +3077,19 @@ packages:
 
   /convert-source-map@2.0.0:
     resolution: {integrity: sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==}
+    dev: false
+
+  /convex-vue@0.1.5(convex@1.25.4)(vue@3.5.13):
+    resolution: {integrity: sha512-0kyM4rkGzDDW9mrK4O3q9cCByzezBm6cnjfeB+i5Wc/BNKfXeAWKFyOKvAuCqjC8WGCbUG/OtbMFbUlWT3dD3g==}
+    engines: {node: '>=22.14.0'}
+    peerDependencies:
+      convex: '>=1.24.0'
+      vue: '>=3.5.0'
+    dependencies:
+      consola: 3.4.2
+      convex: 1.25.4
+      std-env: 3.9.0
+      vue: 3.5.13(typescript@5.7.3)
     dev: false
 
   /convex@1.25.4:
@@ -6532,6 +6553,10 @@ packages:
 
   /std-env@3.8.0:
     resolution: {integrity: sha512-Bc3YwwCB+OzldMxOXJIIvC6cPRWr/LxOp48CdQTOkPyk/t4JWWJbrilwBd7RJzKV8QW7tJkcgAmeuLLJugl5/w==}
+    dev: false
+
+  /std-env@3.9.0:
+    resolution: {integrity: sha512-UGvjygr6F6tpH7o2qyqR6QYpwraIjKSdtzyBdyytFOHmPZY917kwdwLG0RbOjWOnKmnm3PeHjaoLLMie7kPLQw==}
     dev: false
 
   /streamx@2.22.0:

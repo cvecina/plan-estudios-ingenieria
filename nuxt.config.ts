@@ -19,6 +19,12 @@ export default defineNuxtConfig({
     }
   },
 
+  runtimeConfig: {
+    public: {
+      convexUrl: process.env.CONVEX_URL || 'https://agile-pigeon-194.convex.cloud',
+    }
+  },
+
   imports: {
     dirs: [
       'composables',
