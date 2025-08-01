@@ -3,9 +3,19 @@ import { NuxtLoadingIndicator } from './.nuxt/components.d';
 export default defineNuxtConfig({
   ssr: false,
 
-  router: {
-    options: {
-      hashMode: false
+  nitro: {
+    preset: 'static'
+  },
+
+  app: {
+    baseURL: '/',
+    head: {
+      title: 'Repasa+',
+      meta: [
+        { charset: 'utf-8' },
+        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+        { name: 'description', content: 'Tu aplicación para organizar y gestionar tus estudios universitarios' }
+      ]
     }
   },
 
